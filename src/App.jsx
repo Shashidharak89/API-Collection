@@ -4,6 +4,7 @@ import Sidebar from './components/Sidebar'
 import WikiExplorer from './components/WikiExplorer'
 import OpenLibraryExplorer from './components/OpenLibraryExplorer'
 import Unsplash from './components/Unsplash'
+import QRCode from './components/QRCode'
 
 import './App.css'
 
@@ -21,6 +22,7 @@ function App() {
 
         <h2 style={{ marginTop: 24 }}>Image APIs</h2>
         <Unsplash />
+        <QRCode />
       </main>
     </>
   )
