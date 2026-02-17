@@ -6,6 +6,7 @@ import OpenLibraryExplorer from './components/OpenLibraryExplorer'
 import Unsplash from './components/Unsplash'
 import QRCode from './components/QRCode'
 import Dictionary from './components/Dictionary'
+import Advice from './components/Advice'
 
 import './App.css'
 
@@ -25,6 +26,7 @@ function App() {
         <Unsplash />
         <QRCode />
         <Dictionary />
+        <Advice />
       </main>
     </>
   )
