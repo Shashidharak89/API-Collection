@@ -7,6 +7,7 @@ import Unsplash from './components/Unsplash'
 import QRCode from './components/QRCode'
 import Dictionary from './components/Dictionary'
 import Advice from './components/Advice'
+import FakeStore from './components/FakeStore'
 
 import './App.css'
 
@@ -27,6 +28,7 @@ function App() {
         <QRCode />
         <Dictionary />
         <Advice />
+        <FakeStore />
       </main>
     </>
   )
