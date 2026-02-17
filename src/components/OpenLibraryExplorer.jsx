@@ -190,17 +190,39 @@ export default function OpenLibraryExplorer() {
         <div className="wiki-modal-overlay" role="dialog" aria-modal="true" onClick={() => setShowInfo(false)}>
           <div className="wiki-modal" onClick={e => e.stopPropagation()}>
             <button className="modal-close" aria-label="Close info" onClick={() => setShowInfo(false)}>×</button>
-            <h3>About OpenLibrary APIs</h3>
-            <p><strong>1️⃣ Search Books</strong></p>
-            <p>Search by title:</p>
-            <pre className="api-snippet">https://openlibrary.org/search.json?title=harry+potter</pre>
-            <p>Search by author:</p>
-            <pre className="api-snippet">https://openlibrary.org/search.json?author=jk+rowling</pre>
-            <p><strong>2️⃣ Get Book Covers</strong></p>
-            <pre className="api-snippet">https://covers.openlibrary.org/b/id/COVER_ID-L.jpg</pre>
-            <p><strong>3️⃣ Get Book Details</strong></p>
-            <pre className="api-snippet">https://openlibrary.org/works/WORK_ID.json</pre>
-            <p>This explorer fetches search results with pagination and only loads work details when you click <em>View more</em>.</p>
+            <h3>How to use the OpenLibrary APIs (quick guide)</h3>
+            <p>This explorer uses the OpenLibrary public APIs. Use the examples below to implement search, cover fetching, and work details in your app.</p>
+
+            <h4>1) Search books (Title / Author)</h4>
+            <p>Endpoint (GET):</p>
+            <pre className="api-snippet">https://openlibrary.org/search.json?title={'{title}'}&amp;page=1&amp;limit=10</pre>
+            <p>Example curl:</p>
+            <pre className="api-snippet">curl "https://openlibrary.org/search.json?title=harry+potter&page=1&limit=10"</pre>
+            <p>Basic JS fetch:</p>
+            <pre className="api-snippet">{`const params = new URLSearchParams({ title: 'harry potter', page: 1, limit: 10 });
+const res = await fetch('https://openlibrary.org/search.json?' + params.toString());
+const json = await res.json();
+// json.docs -> array of results; json.numFound, json.start`}</pre>
+
+            <h4>2) Get book covers</h4>
+            <p>Use the cover id (cover_i) from search result:</p>
+            <pre className="api-snippet">https://covers.openlibrary.org/b/id/{'{COVER_ID}'}-L.jpg</pre>
+
+            <h4>3) Get work details (on demand)</h4>
+            <p>Endpoint (GET):</p>
+            <pre className="api-snippet">https://openlibrary.org/works/{'{WORK_ID}'}.json</pre>
+            <p>Fetch work details only when the user requests them (e.g. "View more") to avoid loading all data at once. Example:</p>
+            <pre className="api-snippet">const res = await fetch('https://openlibrary.org/works/OL82586W.json');
+const work = await res.json();
+// work.description, work.subjects, work.links, etc.</pre>
+
+            <h4>Notes & tips</h4>
+            <ul>
+              <li>Pagination: use <code>page</code> and <code>limit</code> on the search endpoint; check <code>numFound</code> and <code>start</code> in the response to determine if more results exist.</li>
+              <li>Cover images are served via a simple URL—no auth required.</li>
+              <li>For large result sets, call the search API page-by-page and load work details only when needed.</li>
+              <li>Example UI flow: search → show small list with covers → user clicks "View more" → fetch work details → display description/subjects.</li>
+            </ul>
           </div>
         </div>
       )}
