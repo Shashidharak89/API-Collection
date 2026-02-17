@@ -11,6 +11,7 @@ export default function WikiExplorer() {
   const [lastApi, setLastApi] = useState(null)
   const [showApi, setShowApi] = useState(false)
   const [copied, setCopied] = useState(false)
+  const [showInfo, setShowInfo] = useState(false)
 
   async function fetchSummary(title) {
     const q = title || query
@@ -79,7 +80,10 @@ export default function WikiExplorer() {
 
   return (
     <section className="wiki">
-      <h2>Wikipedia Explorer</h2>
+      <div className="wiki-title-row">
+        <h2>Wikipedia Explorer</h2>
+        <button className="info-btn" aria-label="About Wikipedia Explorer" onClick={() => setShowInfo(true)}>i</button>
+      </div>
 
       <div className="wiki-controls">
         <div className="modes">
@@ -170,6 +174,20 @@ export default function WikiExplorer() {
             <a className="external" href={summary.content_urls.desktop.page} target="_blank" rel="noreferrer">Read full page</a>
           )}
         </article>
+      )}
+
+      {showInfo && (
+        <div className="wiki-modal-overlay" role="dialog" aria-modal="true" onClick={() => setShowInfo(false)}>
+          <div className="wiki-modal" onClick={e => e.stopPropagation()}>
+            <button className="modal-close" aria-label="Close info" onClick={() => setShowInfo(false)}>×</button>
+            <h3>About Wikipedia APIs</h3>
+            <p><strong>Simple — Wikipedia REST API (summary)</strong>: Fetch concise article summaries, thumbnail, extract and direct page link. Example endpoint:</p>
+            <pre className="api-snippet">https://en.wikipedia.org/api/rest_v1/page/summary/Artificial_intelligence</pre>
+            <p><strong>Advanced — MediaWiki Action API</strong>: Full search, revisions, categories and metadata. Example search:</p>
+            <pre className="api-snippet">https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=AI&format=json&origin=*</pre>
+            <p>This explorer supports both: use <em>Simple</em> for quick summaries and <em>Advanced</em> for search results. Click a result's <em>View Summary</em> to fetch the REST summary. The <em>View API</em> panel shows the last request URL and a curl sample which you can copy.</p>
+          </div>
+        </div>
       )}
     </section>
   )
