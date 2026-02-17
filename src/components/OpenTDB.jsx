@@ -32,6 +32,7 @@ export default function OpenTDB() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [lastApi, setLastApi] = useState(null)
+  const [showInfo, setShowInfo] = useState(false)
 
   async function fetchQuestions() {
     setLoading(true)
@@ -96,7 +97,7 @@ export default function OpenTDB() {
       <div className="img-header">
         <h3>OpenTDB — Trivia</h3>
         <div className="img-actions">
-          <button className="info-btn" onClick={() => alert('OpenTDB: fetches trivia questions from https://opentdb.com')}>i</button>
+          <button className="info-btn" onClick={() => setShowInfo(true)}>i</button>
         </div>
       </div>
 
@@ -154,6 +155,37 @@ export default function OpenTDB() {
           <div style={{ marginTop: 12, display: 'flex', gap: 8 }}>
             <button onClick={nextQuestion} className="primary">Next</button>
             <button onClick={() => { setQuestions([]); setIndex(0); setSelected(null); setRevealed(false) }}>Reset</button>
+          </div>
+        </div>
+      )}
+      {showInfo && (
+        <div className="modal-overlay" onClick={() => setShowInfo(false)}>
+          <div className="modal" onClick={e => e.stopPropagation()}>
+            <button className="modal-close" onClick={() => setShowInfo(false)}>×</button>
+            <h4>OpenTDB — Trivia API</h4>
+            <p>Base URL: <code>https://opentdb.com/api.php</code></p>
+            <p>Example: <code>https://opentdb.com/api.php?amount=5&category=18</code></p>
+            <h5>Parameters</h5>
+            <pre className="api-snippet">{'amount=NUMBER (required)\ncategory=ID (optional)\ndifficulty=easy|medium|hard (optional)\ntype=multiple|boolean (optional)'}</pre>
+            <h5>Category 18</h5>
+            <p>Science: Computers — use <code>category=18</code> for computer science questions.</p>
+            <h5>Sample response</h5>
+            <pre className="api-snippet">{
+              '{"response_code":0,"results":[{"category":"Science: Computers","type":"multiple","difficulty":"medium","question":"What does CPU stand for?","correct_answer":"Central Processing Unit","incorrect_answers":["Central Process Unit","Computer Personal Unit","Central Processor Unit"]}]}'
+            }</pre>
+            <h5>Notes</h5>
+            <ul>
+              <li>Questions are returned with HTML entities (e.g. &amp;quot;). Decode before display — this component decodes automatically.</li>
+              <li>Shuffle options before showing; this component randomizes order.</li>
+              <li>To reveal only the correct answer after a selection, this UI highlights the correct option and dims others.</li>
+            </ul>
+            <h5>Use cases</h5>
+            <ul>
+              <li>Multiple-choice quiz UI</li>
+              <li>Flashcards / study mode</li>
+              <li>Gamified leaderboard or timed rounds</li>
+            </ul>
+            <p>More categories: General Knowledge (9), Books (10), Film (11), Music (12), History (23), Sports (21), Geography (22).</p>
           </div>
         </div>
       )}
