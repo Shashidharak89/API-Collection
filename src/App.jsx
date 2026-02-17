@@ -8,6 +8,7 @@ import QRCode from './components/QRCode'
 import Dictionary from './components/Dictionary'
 import Advice from './components/Advice'
 import FakeStore from './components/FakeStore'
+import OpenTDB from './components/OpenTDB'
 
 import './App.css'
 
@@ -29,6 +30,7 @@ function App() {
         <Dictionary />
         <Advice />
         <FakeStore />
+        <OpenTDB />
       </main>
     </>
   )
