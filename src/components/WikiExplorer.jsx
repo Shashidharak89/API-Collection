@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import './Wiki.css'
+import './styles/Wiki.css'
 
 export default function WikiExplorer() {
   const [mode, setMode] = useState('simple') // 'simple' or 'advanced'
