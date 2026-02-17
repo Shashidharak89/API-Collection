@@ -2,3 +2,10 @@
   margin: 0;
   padding: 0;
 }
+
+body{
+  background: #fffaf6;
+  color: #111;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
